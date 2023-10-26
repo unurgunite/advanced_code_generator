@@ -32,5 +32,19 @@ module CodeGenerator
     @generate: boolish
 
     def generate_code: -> untyped
+
+    private
+
+    def generate_public_methods: -> untyped
+
+    def generate_public_class_methods: -> untyped
+
+    def any_generation_rules: -> boolish
+
+    def both_generation_rules: -> boolish
+
+    def operate_on_value: -> untyped
+
+    def generate_random_object: -> untyped
   end
 end
