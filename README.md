@@ -121,9 +121,9 @@ code.method(:method2).parameters # => [[:req, :foo], [:req, :bar], [:opt, :opts]
 ## TODO
 
 - [x] Add support for public methods
-- [x] Add support for public public class methods
-- [ ] Add support for public private methods
-- [ ] Add support for public private class methods
+- [x] Add support for public class methods
+- [ ] Add support for private methods
+- [ ] Add support for private class methods
 
 ## Development
 
