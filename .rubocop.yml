@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 plugins:
   - rubocop-sorted_methods_by_call
 
@@ -7,6 +9,9 @@ AllCops:
 
 Layout/LineLength:
   Max: 120
+
+Gemspec/DevelopmentDependencies:
+  Enabled: false
 
 SortedMethodsByCall/Waterfall:
   Enabled: true

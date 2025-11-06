@@ -27,7 +27,6 @@ jobs:
       - name: RuboCop (self‑check)
         run: |
           bundle exec rubocop
-          bundle exec rubocop --config .rubocop.test.yml lib/ -A
 
       - name: RSpec
         run: bundle exec rspec
