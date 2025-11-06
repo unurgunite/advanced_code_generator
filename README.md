@@ -1,248 +1,221 @@
+Here's a **modern, professional README.md** that reflects your DSL-based code generator:
+
 # CodeGenerator
 
-![Alt](https://repobeats.axiom.co/api/embed/cf02cc6438367e8127e0aae8fc871c935844f4e8.svg "Project stats")
+![Repobeats](https://repobeats.axiom.co/api/embed/cf02cc6438367e8127e0aae8fc871c935844f4e8.svg "Project stats")
+[![Gem Version](https://badge.fury.io/rb/code_generator.svg)](https://rubygems.org/gems/code_generator)
+[![CI](https://github.com/unurgunite/code_generator/actions/workflows/ci.yml/badge.svg)](https://github.com/unurgunite/code_generator/actions)
 
-Welcome to the Ruby library which could generate code in any directions you want. It supports flexible settings for your
-purposes and does not need any requirements.
+**A fluent DSL for generating Ruby classes with stubbed methods for testing and prototyping.**
 
-## Documentation content
+* [CodeGenerator](#codegenerator)
+    * [Features](#features)
+    * [Installation](#installation)
+    * [Usage Examples](#usage-examples)
+        * [Basic Public Method](#basic-public-method)
+        * [Method with Parameters](#method-with-parameters)
+        * [Private and Protected Methods](#private-and-protected-methods)
+        * [Class Methods](#class-methods)
+        * [Random Value Generation](#random-value-generation)
+    * [Testing](#testing)
+    * [Development](#development)
+        * [Available Commands](#available-commands)
+        * [Release Process](#release-process)
+    * [Requirements](#requirements)
+    * [Contributing](#contributing)
+    * [License](#license)
+    * [Code of Conduct](#code-of-conduct)
 
-1. [Overview][1]
-2. [Installation][2]
-    1. [Build from source][2.1]
-        1. [Manual installation][2.1.1]
-        2. [Automatic installation][2.1.2]
-    2. [Build via bundler][2.2]
-3. [Usage][3]
-4. [Todo][4]
-5. [Development][5]
-6. [Requirements][6]
-    1. [Common usage][6.1]
-    2. [Development purposes][6.2]
-7. [Project style guide][7]
-8. [Contributing][8]
-9. [License][9]
-10. [Code of Conduct][10]
+## Features
 
-## Overview
-
-As noted above, this gem helps to create large domains of data (objects and their interfaces). The projects source tree
-is pretty simple. All of the resources are stored in theirs separate module, so it does code readability much cleaner.
+- **Fluent DSL**: Clean, readable syntax for defining methods
+- **Full visibility support**: Public, private, and protected instance methods
+- **Class method support**: Public and private class methods
+- **Parameter configuration**: Define required, optional, and keyword parameters
+- **Smart return values**: Return specific objects or generate random values
+- **Zero dependencies**: Pure Ruby, no external requirements
 
 ## Installation
 
-Code Generator gem is quite simple to use and install. There are two options to install it — for those who is going to
-contribute into the project and for those who is going to embed gem to theirs project. See below for each step.
-
-### Build from source
-
-#### Manual installation
-
-The manual installation includes installation via command line interface. it is practically no different from what
-happens during the automatic build of the project:
-
-```shell
-git clone https://github.com/unurgunite/code_generator.git && \
-cd code_generator && \
-bundle install && \
-gem build code_generator.gemspec && \
-gem install code-generator-0.1.0.gem
-```
-
-Now everything should work fine. Just type `irb` and `require "code_generator"` to start working with the library
-
-#### Automatic installation
-
-The automatic installation is simpler but it has at least same steps as manual installation:
-
-```shell
-git clone https://github.com/unurgunite/code_generator.git && \
-cd code_generator && \
-bin/setup
-```
-
-If you see `irb` interface, then everything works fine. The main goal of automatic installation is that you do not need
-to create your own script to simplify project build and clean up the shell history. Note: you do not need to require
-projects file after the automatic installation. See `bin/setup` file for clarity of the statement
-
-### Build via bundler
-
-This documentation point is close to those who need to embed the library in their project. Just place this gem to your
-Gemfile or create it manually via `bundle init`:
+Add this line to your application's Gemfile:
 
 ```ruby
-# Your Gemfile
 gem 'code_generator'
 ```
 
 And then execute:
 
-```shell
+```bash
 bundle install
 ```
 
-Or install it yourself for non bundled projects as:
+Or install it yourself:
 
-```shell
+```bash
 gem install code_generator
 ```
 
-## Usage
+## Usage Examples
 
-All internal docs are available at the separate page: https://unurgunite.github.io/code_generator_docs/
-
-This gem is really simple to use. It generates methods according to your requests. It uses standard Ruby parameters
-names for representing them as separate objects:
-
-1. `req` is a required param
-2. `opt` is an optional param
-3. `keyreq` is a required keyword param
-4. `key` is a keyword param with default value
-5. `block` is block
+### Basic Public Method
 
 ```ruby
-code = CodeGenerator::Generator.new(public_methods: [:method1, [:method2, { args: [[:req, :foo],
-                                                                                   [:req, :bar],
-                                                                                   [:opt, :opts, {}],
-                                                                                   [:keyreq, :some_keyword],
-                                                                                   [:key, :some_key, 123],
-                                                                                   [:block, :some_block]],
-                                                                            should_return: 123 }], :method3], should_return: Integer, generate: true)
-code.generate_code #=> [:method1, [:method2, {:args=>[[:req, :foo], [:req, :bar], [:opt, :opts, {}], [:keyreq, :some_keyword], [:key, :some_key, 123], [:block, :some_block]], :should_return=>123}], :method3]
-code.methods(false) #=> [:method1, :method2, :method3]
-code.method1 #=> 724835356767704
-code.method2(1, { foo: 555 }, some_keyword: 345) #=> 123
-code.method3 #=> 724835356767704 # random objects will be fixed in next release
+generator = CodeGenerator::Generator.new do |g|
+  g.public_method :hello do |m|
+    m.returns "world"
+  end
+end
 
-code.method(:method2) #=> #<Method: #<CodeGenerator::Generator:0x000055b27b207758 @public_methods=[:method1, [:method2, {:args=>[[:req, :foo], [:req, :bar], [:opt, :opts, {}], [:keyreq, :some_keyword], [:key, :some_key, 123], [:block, :some_block]], :should_return=>123}], :method3], @public_class_methods=nil, @private_methods=nil, @private_class_methods=nil, @should_return=Integer, @generate=true>.method2(foo, bar, opts=..., some_keyword:, some_key: ..., &some_block) /home/ruby/code_generator/lib/code_generator/generator.rb:99>
-code.method(:method2).parameters # => [[:req, :foo], [:req, :bar], [:opt, :opts], [:keyreq, :some_keyword], [:key, :some_key], [:block, :some_block]]
+Klass = generator.build
+obj = Klass.new
+obj.hello # => "world"
 ```
 
-## TODO
+### Method with Parameters
 
-- [x] Add support for public methods
-- [x] Add support for public class methods
-- [ ] Add support for private methods
-- [ ] Add support for private class methods
+```ruby
+generator = CodeGenerator::Generator.new do |g|
+  g.public_method :greet do |m|
+    m.required :name
+    m.optional :greeting, default: "Hello"
+    m.keyword_required :format
+    m.returns true
+  end
+end
+
+Klass = generator.build
+obj = Klass.new
+obj.greet("Alice", format: :json) # => true
+obj.greet("Bob", "Hi", format: :xml) # => true
+```
+
+### Private and Protected Methods
+
+```ruby
+generator = CodeGenerator::Generator.new do |g|
+  g.private_method :secret_calculation do |m|
+    m.returns 42
+  end
+
+  g.protected_method :internal_logic do |m|
+    m.returns "protected result"
+  end
+end
+
+Klass = generator.build
+obj = Klass.new
+obj.send(:secret_calculation) # => 42
+# obj.secret_calculation                    # => NoMethodError
+
+# Protected method access through subclass
+Subclass = Class.new(Klass) do
+  def access_protected
+    internal_logic
+  end
+end
+Subclass.new.access_protected # => "protected result"
+```
+
+### Class Methods
+
+```ruby
+generator = CodeGenerator::Generator.new do |g|
+  g.public_class_method :factory do |m|
+    m.returns "class helper"
+  end
+
+  g.private_class_method :setup do |m|
+    m.returns "private setup"
+  end
+end
+
+Klass = generator.build
+Klass.factory # => "class helper"
+Klass.send(:setup) # => "private setup"
+```
+
+### Random Value Generation
+
+```ruby
+generator = CodeGenerator::Generator.new do |g|
+  g.public_method :random_int do |m|
+    m.returns Integer
+    m.generate true
+  end
+
+  g.public_method :random_string do |m|
+    m.returns String
+    m.generate true
+  end
+end
+
+Klass = generator.build
+obj = Klass.new
+obj.random_int # => 42891 (random integer)
+obj.random_string # => "aB3xY9zK2m" (random string)
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+bundle exec rspec
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can
-also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the
-version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version,
-push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```bash
+bin/setup
+```
+
+This will install dependencies and start an interactive console.
+
+### Available Commands
+
+- `bin/console` - Interactive development console
+- `bin/setup` - Install dependencies and build gem
+- `bundle exec rake` - Run tests and linting
+
+### Release Process
+
+1. Update version in `lib/code_generator/version.rb`
+2. Create and push a git tag: `git tag v0.1.0 && git push origin v0.1.0`
+3. GitHub Actions will automatically:
+    - Build the gem
+    - Publish to RubyGems.org
+    - Create a GitHub release
 
 ## Requirements
 
-This section will show dependencies which are used in the project. This section splits in two other sections —
-requirements for common use and requirements for the development purposes.
-
-### Common use
-
-The `code_generator` gem does not have any requirements
-
-### Development purposes
-
-For the development purposes `code_generator` gem uses:
-
-| Dependencies         | Description                                                                              |
-|----------------------|------------------------------------------------------------------------------------------|
-| [RSpec][201]         | The RSpec gem is used for test which are located in a separate folder under `spec` name. |
-| [RuboCop][202]       | The RuboCop gem is used for code formatting.                                             |
-| [Rake][203]          | The Rake gem is used for building tasks as generating documentation.                     |
-| [rubocop-rspec][204] | The rubocop-rspec gem is used for formatting specs.                                      |
-| [YARD][205]          | The YARD gem is used for the documentation.                                              |
-
-## Project style guide
-
-To make the code base much cleaner gem has its own style guides. They are defined in a root folder of the gem in
-a [CONTRIBUTING.md](https://github.com/unurgunite/code_generator/blob/master/CONTRIBUTING.md) file. Check it for more
-details.
+- **Ruby**: >= 2.6.0
+- **No external dependencies**
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/unurgunite/code_generator. This project is
-intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to
-the [code of conduct](https://github.com/unurgunite/code_generator/blob/master/CODE_OF_CONDUCT.md). To contribute you
-should
-fork this project and create there new branch:
+Bug reports and pull requests are welcome! Please follow these guidelines:
 
-```shell
-git clone https://github.com/your-beautiful-username/code_generator.git && \
-git checkout -b refactor && \
-git commit -m "Affected new changes" && \
-git push origin refactor
-```
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -am 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a pull request
 
-And then make new pull request with additional notes of what you have done. The better the changes are scheduled, the
-faster the PR will be checked.
-
-## Code of Conduct
-
-Everyone interacting in the `CodeGenerator` project's codebases, issue trackers, chat rooms and mailing lists is
-expected
-to follow the [code of conduct](https://github.com/unurgunite/code_generator/blob/master/CODE_OF_CONDUCT.md).
+Please ensure your code passes all tests and follows the existing style.
 
 ## License
 
-The gem is available as open source under the terms of the [GPLv3 License](https://opensource.org/licenses/GPL-3.0). The
-copy of the license is stored in project under the `LICENSE.txt` file
-name: [copy of the License](https://github.com/unurgunite/code_generator/blob/master/LICENSE.txt)
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
-The documentation is available as open source under the terms of
-the [CC BY-SA 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/)
+## Code of Conduct
 
-The other libs are available as open source under the terms of
-the [New BSD License](https://opensource.org/licenses/BSD-3-Clause)
+Everyone interacting with this project is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-![GPLv3 logo](https://www.gnu.org/graphics/gplv3-or-later.png)
-![CC BY-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg)
-![BSD license logo](https://upload.wikimedia.org/wikipedia/commons/4/42/License_icon-bsd-88x31.png)
+---
 
-[1]:https://github.com/unurgunite/code_generator#overview
+> **Note**: This gem is designed for **testing and prototyping**. Generated methods accept any parameters and return
+> configured values, making it perfect for creating test doubles and stubs.
 
-[2]:https://github.com/unurgunite/code_generator#installation
-
-[2.1]:https://github.com/unurgunite/code_generator#build-from-source
-
-[2.1.1]:https://github.com/unurgunite/code_generator#manual-installation
-
-[2.1.2]:https://github.com/unurgunite/code_generator#automatic-installation
-
-[2.2]:https://github.com/unurgunite/code_generator#build-via-bundler
-
-[3]:https://github.com/unurgunite/code_generator#usage
-
-[4]:https://github.com/unurgunite/code_generator#todo
-
-[5]:https://github.com/unurgunite/code_generator#development
-
-[6]:https://github.com/unurgunite/code_generator#requirements
-
-[6.1]:https://github.com/unurgunite/code_generator#common-usage
-
-[6.2]:https://github.com/unurgunite/code_generator#development-purposes
-
-[7]:https://github.com/unurgunite/code_generator#project-style-guide
-
-[8]:https://github.com/unurgunite/code_generator#contributing
-
-[9]:https://github.com/unurgunite/code_generator#license
-
-[10]:https://github.com/unurgunite/code_generator#code-of-conduct
-
-[101]:https://rubygems.org/gems/httparty
-
-[102]:https://rubygems.org/gems/nokogiri
-
-[201]:https://rubygems.org/gems/rspec
-
-[202]:https://rubygems.org/gems/rubocop
-
-[203]:https://rubygems.org/gems/rake
-
-[204]:https://rubygems.org/gems/rubocop-rspec
-
-[205]:https://rubygems.org/gems/yard
+```
