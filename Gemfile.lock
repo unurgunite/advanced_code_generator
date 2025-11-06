@@ -60,7 +60,7 @@ GEM
       rubocop-rspec_rails (~> 2.28)
     rubocop-rspec_rails (2.29.1)
       rubocop (~> 1.61)
-    rubocop-sorted_methods_by_call (1.0.1)
+    rubocop-sorted_methods_by_call (1.1.1)
       lint_roller
       rubocop (>= 1.72.0)
     ruby-progressbar (1.13.0)
@@ -79,7 +79,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop
   rubocop-rspec (~> 2.24)
-  rubocop-sorted_methods_by_call (~> 1.0, >= 1.0.1)
+  rubocop-sorted_methods_by_call
   yard
 
 BUNDLED WITH

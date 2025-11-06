@@ -190,7 +190,7 @@ This will install dependencies and start an interactive console.
 
 ## Requirements
 
-- **Ruby**: >= 2.6.0
+- **Ruby**: >= 2.7.0
 - **No external dependencies**
 
 ## Contributing

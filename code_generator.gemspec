@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'Code generation tool based on preferences.'
   spec.description = 'This gem gives an ability to generate code based on preferences. You can use it to skip a boring routine with writing tests, some classes for other purposes or just for fun.'
   spec.homepage = 'https://github.com/unurgunite/code_generator.'
-  spec.required_ruby_version = '>= 2.6.0'
+  spec.required_ruby_version = '>= 2.7.0'
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 

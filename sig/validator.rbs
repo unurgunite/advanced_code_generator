@@ -1,9 +1,0 @@
-class Validator
-  def validate!: -> untyped
-
-  private
-
-  def arguments_table: -> untyped
-
-  def validate: -> untyped
-end
