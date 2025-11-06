@@ -1,10 +1,8 @@
-Here's a **modern, professional README.md** that reflects your DSL-based code generator:
-
 # AdvancedCodeGenerator (ACG)
 
-![Repobeats](https://repobeats.axiom.co/api/embed/cf02cc6438367e8127e0aae8fc871c935844f4e8.svg "Project stats")
-[![Gem Version](https://badge.fury.io/rb/code_generator.svg)](https://rubygems.org/gems/code_generator)
-[![CI](https://github.com/unurgunite/code_generator/actions/workflows/ci.yml/badge.svg)](https://github.com/unurgunite/code_generator/actions)
+![Repobeats](https://repobeats.axiom.co/api/embed/b945bee4de2921a512eff2d30b19f333915701e7.svg "Repobeats analytics image")
+[![Gem Version](https://badge.fury.io/rb/code_generator.svg)](https://rubygems.org/gems/advanced_code_generator)
+[![CI](https://github.com/unurgunite/code_generator/actions/workflows/ci.yml/badge.svg)](https://github.com/unurgunite/advanced_code_generator/actions)
 
 **A fluent DSL for generating Ruby classes with stubbed methods for testing and prototyping.**
 
@@ -217,5 +215,3 @@ Everyone interacting with this project is expected to follow the [Code of Conduc
 
 > **Note**: This gem is designed for **testing and prototyping**. Generated methods accept any parameters and return
 > configured values, making it perfect for creating test doubles and stubs.
-
-```
