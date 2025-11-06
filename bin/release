@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+log_error()   { echo -e "${RED}ERROR: $1${NC}" >&2; }
+log_warn()    { echo -e "${YELLOW}WARNING: $1${NC}" >&2; }
+log_success() { echo -e "${GREEN}$1${NC}"; }
+
+check_clean_working_directory() {
+  if ! git diff-index --quiet HEAD --; then
+    log_error "Working directory is not clean. Please commit or stash your changes."
+    exit 1
+  fi
+}
+
+check_main_branch() {
+  local current_branch
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+  if [[ "$current_branch" != "main" && "$current_branch" != "master" ]]; then
+    log_error "Must be on 'main' or 'master' branch to release. Current branch: $current_branch"
+    exit 1
+  fi
+}
+
+detect_gemspec() {
+  GEMSPEC=$(ls *.gemspec 2>/dev/null | head -n 1)
+  if [[ -z "${GEMSPEC}" ]]; then
+    log_error "No .gemspec file found in this directory."
+    exit 1
+  fi
+
+  GEM_NAME=$(ruby -r rubygems -e "spec = Gem::Specification.load('./${GEMSPEC}'); puts spec.name")
+  VERSION=$(ruby -r rubygems -e "spec = Gem::Specification.load('./${GEMSPEC}'); puts spec.version")
+}
+
+detect_version() {
+  if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+    log_error "Git tag v${VERSION} already exists. Please update the version in your gemspec or version file first."
+    exit 1
+  fi
+
+  echo "Preparing to release version ${VERSION} for ${GEM_NAME}"
+}
+
+confirm_release() {
+  echo ""
+  log_warn "This will:"
+  echo "  • Build gem ${GEM_NAME} version ${VERSION}"
+  echo "  • Create git tag v${VERSION}"
+  echo "  • Push tag to origin"
+  echo "  • Publish to RubyGems"
+  echo ""
+  read -p "Are you sure you want to proceed? (y/N): " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    log_warn "Release cancelled."
+    exit 1
+  fi
+}
+
+build_gem() {
+  log_success "Building gem..."
+  gem build "${GEMSPEC}"
+
+  if [[ ! -f "${GEM_NAME}-${VERSION}.gem" ]]; then
+    log_error "Gem build failed or gem file not found: ${GEM_NAME}-${VERSION}.gem"
+    exit 1
+  fi
+}
+
+create_and_push_tag() {
+  log_success "Creating and pushing git tag..."
+  git tag "v${VERSION}" -m "Release v${VERSION}"
+  git push origin "v${VERSION}"
+}
+
+publish_to_rubygems() {
+  log_success "Publishing to RubyGems..."
+  gem push "${GEM_NAME}-${VERSION}.gem"
+}
+
+main() {
+  log_success "Starting release process..."
+
+  check_clean_working_directory
+  check_main_branch
+  detect_gemspec
+  detect_version
+  confirm_release
+
+  build_gem
+  create_and_push_tag
+  publish_to_rubygems
+
+  log_success "✅ Release v${VERSION} completed successfully!"
+  echo ""
+  echo "Next steps:"
+  echo "  • Create a GitHub release: https://github.com/$(git remote get-url origin | sed -E 's|.*github.com[:/](.*/.*)\.git|\1|; s|.*github.com[:/](.*)|\1|')/releases/new?tag=v${VERSION}"
+  echo "  • Update CHANGELOG.md for the next release"
+}
+
+main "$@"
