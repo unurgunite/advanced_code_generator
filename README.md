@@ -1,6 +1,6 @@
 Here's a **modern, professional README.md** that reflects your DSL-based code generator:
 
-# CodeGenerator
+# AdvancedCodeGenerator (ACG)
 
 ![Repobeats](https://repobeats.axiom.co/api/embed/cf02cc6438367e8127e0aae8fc871c935844f4e8.svg "Project stats")
 [![Gem Version](https://badge.fury.io/rb/code_generator.svg)](https://rubygems.org/gems/code_generator)
@@ -8,7 +8,7 @@ Here's a **modern, professional README.md** that reflects your DSL-based code ge
 
 **A fluent DSL for generating Ruby classes with stubbed methods for testing and prototyping.**
 
-* [CodeGenerator](#codegenerator)
+* [AdvancedCodeGenerator (ACG)](#advancedcodegenerator-acg)
     * [Features](#features)
     * [Installation](#installation)
     * [Usage Examples](#usage-examples)
@@ -40,7 +40,7 @@ Here's a **modern, professional README.md** that reflects your DSL-based code ge
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'code_generator'
+gem 'advanced_code_generator'
 ```
 
 And then execute:
@@ -52,7 +52,7 @@ bundle install
 Or install it yourself:
 
 ```bash
-gem install code_generator
+gem install advanced_code_generator
 ```
 
 ## Usage Examples
@@ -60,7 +60,7 @@ gem install code_generator
 ### Basic Public Method
 
 ```ruby
-generator = CodeGenerator::Generator.new do |g|
+generator = AdvancedCodeGenerator::Generator.new do |g|
   g.public_method :hello do |m|
     m.returns "world"
   end
@@ -74,7 +74,7 @@ obj.hello # => "world"
 ### Method with Parameters
 
 ```ruby
-generator = CodeGenerator::Generator.new do |g|
+generator = AdvancedCodeGenerator::Generator.new do |g|
   g.public_method :greet do |m|
     m.required :name
     m.optional :greeting, default: "Hello"
@@ -92,7 +92,7 @@ obj.greet("Bob", "Hi", format: :xml) # => true
 ### Private and Protected Methods
 
 ```ruby
-generator = CodeGenerator::Generator.new do |g|
+generator = AdvancedCodeGenerator::Generator.new do |g|
   g.private_method :secret_calculation do |m|
     m.returns 42
   end
@@ -119,7 +119,7 @@ Subclass.new.access_protected # => "protected result"
 ### Class Methods
 
 ```ruby
-generator = CodeGenerator::Generator.new do |g|
+generator = AdvancedCodeGenerator::Generator.new do |g|
   g.public_class_method :factory do |m|
     m.returns "class helper"
   end
@@ -137,7 +137,7 @@ Klass.send(:setup) # => "private setup"
 ### Random Value Generation
 
 ```ruby
-generator = CodeGenerator::Generator.new do |g|
+generator = AdvancedCodeGenerator::Generator.new do |g|
   g.public_method :random_int do |m|
     m.returns Integer
     m.generate true

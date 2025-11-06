@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-PROJECT_NAME='code_generator'
+PROJECT_NAME='advanced_code_generator'
 if pwd | grep $PROJECT_NAME; then
   cd "${PWD%$PROJECT_NAME*}$PROJECT_NAME"
 else

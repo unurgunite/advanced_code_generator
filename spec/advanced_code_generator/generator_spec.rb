@@ -1,10 +1,9 @@
-# spec/code_generator/generator_spec.rb
 # frozen_string_literal: true
 
-RSpec.describe CodeGenerator::Generator do
+RSpec.describe AdvancedCodeGenerator::Generator do
   describe 'public methods' do
     it 'creates a simple public method' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :hello do |m|
           m.returns 'world'
         end
@@ -16,7 +15,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'creates public method with required parameters' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :greet do |m|
           m.required :name
           m.returns 'Hello'
@@ -34,7 +33,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'creates public method with optional parameters' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :greet do |m|
           m.required :name
           m.optional :greeting, default: 'Hello'
@@ -50,7 +49,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'creates public method with keyword parameters' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :process do |m|
           m.required :id
           m.keyword :format, default: 'json'
@@ -72,7 +71,7 @@ RSpec.describe CodeGenerator::Generator do
 
   describe 'private methods' do
     it 'creates a private method' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.private_method :secret do |m|
           m.returns 42
         end
@@ -86,7 +85,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'creates private method with parameters' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.private_method :calculate do |m|
           m.required :x
           m.required :y
@@ -104,7 +103,7 @@ RSpec.describe CodeGenerator::Generator do
 
   describe 'protected methods' do
     it 'creates a protected method' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.protected_method :internal do |m|
           m.returns 'protected'
         end
@@ -126,7 +125,7 @@ RSpec.describe CodeGenerator::Generator do
 
   describe 'class methods' do
     it 'creates public class method' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_class_method :helper do |m|
           m.returns 'class helper'
         end
@@ -137,7 +136,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'creates private class method' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.private_class_method :internal_class_method do |m|
           m.returns 'private class'
         end
@@ -152,7 +151,7 @@ RSpec.describe CodeGenerator::Generator do
 
   describe 'random generation' do
     it 'generates random integers' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :random_int do |m|
           m.returns Integer
           m.generate value: true
@@ -168,7 +167,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'generates random strings' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :random_string do |m|
           m.returns String
           m.generate value: true
@@ -184,7 +183,7 @@ RSpec.describe CodeGenerator::Generator do
     end
 
     it 'generates random symbols' do
-      generator = CodeGenerator::Generator.new do |g|
+      generator = AdvancedCodeGenerator::Generator.new do |g|
         g.public_method :random_symbol do |m|
           m.returns Symbol
           m.generate value: true
@@ -202,7 +201,7 @@ RSpec.describe CodeGenerator::Generator do
   describe 'parameter validation' do
     it 'raises error for invalid parameter name' do
       expect do
-        CodeGenerator::Generator.new do |g|
+        AdvancedCodeGenerator::Generator.new do |g|
           g.public_method :test do |m|
             m.required 'string_name' # Should be symbol
           end
@@ -212,7 +211,7 @@ RSpec.describe CodeGenerator::Generator do
 
     it 'raises error for invalid parameter type' do
       expect do
-        CodeGenerator::Parameter.new(:invalid_type, :name)
+        AdvancedCodeGenerator::Parameter.new(:invalid_type, :name)
       end.to raise_error(ArgumentError, 'Invalid parameter type: invalid_type')
     end
   end
@@ -220,7 +219,7 @@ RSpec.describe CodeGenerator::Generator do
   describe 'visibility validation' do
     it 'raises error for invalid visibility' do
       expect do
-        CodeGenerator::MethodConfig.new(:test, :invalid_visibility)
+        AdvancedCodeGenerator::MethodConfig.new(:test, :invalid_visibility)
       end.to raise_error(ArgumentError, 'Invalid visibility: invalid_visibility')
     end
   end

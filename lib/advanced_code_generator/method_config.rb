@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodeGenerator
+module AdvancedCodeGenerator
   # Represents the configuration for a single method definition.
   #
   # This class encapsulates all the metadata needed to define a method,
@@ -24,7 +24,7 @@ module CodeGenerator
     # @return [Symbol] The visibility level (:public, :private, :protected, :public_class, :private_class)
     attr_reader :visibility
 
-    # @return [Array<CodeGenerator::Parameter>] List of method parameters
+    # @return [Array<AdvancedCodeGenerator::Parameter>] List of method parameters
     attr_reader :parameters
 
     # @return [Object, nil] The value that the method should return
@@ -164,7 +164,7 @@ module CodeGenerator
     private
 
     # @!attribute [rw] parameters
-    #   @return [Array<CodeGenerator::Parameter>]
+    #   @return [Array<AdvancedCodeGenerator::Parameter>]
     attr_writer :parameters
 
     # @!attribute [rw] return_value

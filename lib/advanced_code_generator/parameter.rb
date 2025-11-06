@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodeGenerator
+module AdvancedCodeGenerator
   # Represents a single method parameter configuration.
   #
   # This class encapsulates the metadata for a method parameter, including

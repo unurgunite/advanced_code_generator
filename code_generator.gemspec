@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/code_generator/version'
+require_relative 'lib/advanced_code_generator/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'code_generator'
-  spec.version = CodeGenerator::VERSION
+  spec.name = 'advanced_code_generator'
+  spec.version = AdvancedCodeGenerator::VERSION
   spec.authors = ['unurgunite']
   spec.email = ['senpaiguru1488@gmail.com']
 
@@ -12,14 +12,14 @@ Gem::Specification.new do |spec|
   spec.description = <<~TEXT
     This gem makes it possible to generate code based on preferences. You can use it to avoid the boring routine of writing tests, use some classes for other purposes, or just for fun.
   TEXT
-  spec.homepage = 'https://github.com/unurgunite/code_generator.'
+  spec.homepage = 'https://github.com/unurgunite/advanced_code_generator.'
   spec.required_ruby_version = '>= 2.7.0'
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/unurgunite/code_generator'
-  spec.metadata['changelog_uri'] = 'https://github.com/unurgunite/code_generator/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/unurgunite/advanced_code_generator'
+  spec.metadata['changelog_uri'] = 'https://github.com/unurgunite/advanced_code_generator/CHANGELOG.md'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   # Specify which files should be added to the gem when it is released.

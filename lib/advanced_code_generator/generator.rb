@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodeGenerator
+module AdvancedCodeGenerator
   # Generates Ruby classes with stubbed methods using a fluent DSL.
   #
   # This class provides a domain-specific language (DSL) for defining
@@ -27,10 +27,10 @@ module CodeGenerator
   #     end
   #   end
   class Generator
-    # @return [Array<CodeGenerator::MethodConfig>] List of instance method configurations
+    # @return [Array<AdvancedCodeGenerator::MethodConfig>] List of instance method configurations
     attr_reader :methods
 
-    # @return [Array<CodeGenerator::MethodConfig>] List of class method configurations
+    # @return [Array<AdvancedCodeGenerator::MethodConfig>] List of class method configurations
     attr_reader :class_methods
 
     # Initializes a new Generator instance with empty method collections.
@@ -51,7 +51,7 @@ module CodeGenerator
     #
     # @yield [generator] The generator instance for DSL configuration
     # @yieldparam generator [CodeGenerator::Generator] The current generator instance
-    # @return [CodeGenerator::Generator] A configured generator instance
+    # @return [AdvancedCodeGenerator::Generator] A configured generator instance
     #
     # @example
     #   generator = CodeGenerator::Generator.new do |g|
@@ -231,7 +231,7 @@ module CodeGenerator
     # with a proc or generating a method definition string with class_eval.
     #
     # @param target_class [Class, #singleton_class] The class to define the method on
-    # @param method_config [CodeGenerator::MethodConfig] The method configuration
+    # @param method_config [AdvancedCodeGenerator::MethodConfig] The method configuration
     # @param define_method_name [Symbol] The method used to define methods (:define_method)
     # @return [void]
     def define_method_with_params(target_class, method_config, define_method_name)
@@ -258,7 +258,7 @@ module CodeGenerator
     # Handles both static return values and random object generation
     # based on the method configuration settings.
     #
-    # @param method_config [CodeGenerator::MethodConfig] The method configuration
+    # @param method_config [AdvancedCodeGenerator::MethodConfig] The method configuration
     # @return [Object, nil] The calculated return value
     def calculate_return_value(method_config)
       if method_config.generate_random && method_config.return_value.is_a?(Class)

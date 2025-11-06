@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'code_generator'
+require 'advanced_code_generator'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
