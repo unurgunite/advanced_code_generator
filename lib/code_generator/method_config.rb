@@ -52,7 +52,7 @@ module CodeGenerator
     #     m.returns "result"
     #   end
     def initialize(name, visibility)
-      raise ArgumentError, "Method name must be a Symbol or String" unless name.is_a?(Symbol) || name.is_a?(String)
+      raise ArgumentError, 'Method name must be a Symbol or String' unless name.is_a?(Symbol) || name.is_a?(String)
       raise ArgumentError, "Invalid visibility: #{visibility}" unless VALID_VISIBILITIES.include?(visibility)
 
       @name = name.to_sym
@@ -181,7 +181,7 @@ module CodeGenerator
     # @raise [ArgumentError] If name is not a Symbol
     # @return [void]
     def validate_param_name(name)
-      raise ArgumentError, "Parameter name must be a Symbol" unless name.is_a?(Symbol)
+      raise ArgumentError, 'Parameter name must be a Symbol' unless name.is_a?(Symbol)
     end
   end
 end

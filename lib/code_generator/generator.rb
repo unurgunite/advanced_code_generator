@@ -237,7 +237,7 @@ module CodeGenerator
     def define_method_with_params(target_class, method_config, define_method_name)
       if method_config.parameters.empty?
         return_value = calculate_return_value(method_config)
-        target_class.send(define_method_name, method_config.name) do |*args, **kwargs, &block|
+        target_class.send(define_method_name, method_config.name) do |*_args, **_kwargs|
           return_value
         end
       else
@@ -284,11 +284,11 @@ module CodeGenerator
     #   generate_random_object(Object)  # => Object
     def generate_random_object(klass)
       case klass.name
-      when "Integer"
+      when 'Integer'
         rand(1..1_000_000)
-      when "String"
+      when 'String'
         SecureRandom.alphanumeric(10)
-      when "Symbol"
+      when 'Symbol'
         SecureRandom.alphanumeric(10).to_sym
       else
         klass

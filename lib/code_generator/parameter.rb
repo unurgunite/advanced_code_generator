@@ -49,7 +49,7 @@ module CodeGenerator
     #   param = CodeGenerator::Parameter.new(:keyword, :timeout, default: 30)
     def initialize(type, name, default: nil)
       raise ArgumentError, "Invalid parameter type: #{type}" unless VALID_TYPES.include?(type)
-      raise ArgumentError, "Parameter name must be a Symbol" unless name.is_a?(Symbol)
+      raise ArgumentError, 'Parameter name must be a Symbol' unless name.is_a?(Symbol)
 
       @type = type
       @name = name
