@@ -1,3 +1,4 @@
+# lib/code_generator/generator.rb
 # frozen_string_literal: true
 
 module CodeGenerator
@@ -21,26 +22,48 @@ module CodeGenerator
       klass
     end
 
+    def public_method(name, &block)
+      method_config = MethodConfig.new(name, :public, &block)
+      @methods << method_config
+    end
+
+    def private_method(name, &block)
+      method_config = MethodConfig.new(name, :private, &block)
+      @methods << method_config
+    end
+
+    def protected_method(name, &block)
+      method_config = MethodConfig.new(name, :protected, &block)
+      @methods << method_config
+    end
+
+    def public_class_method(name, &block)
+      method_config = MethodConfig.new(name, :public_class, &block)
+      @class_methods << method_config
+    end
+
+    def private_class_method(name, &block)
+      method_config = MethodConfig.new(name, :private_class, &block)
+      @class_methods << method_config
+    end
+
     private
 
     attr_reader :methods, :class_methods
 
     def define_instance_methods(klass)
-      return unless methods
+      return unless @methods
 
-      methods.each do |method_config|
-        return_value = calculate_return_value(method_config)
-
+      @methods.each do |method_config|
         case method_config.visibility
         when :public
-          klass.define_method(method_config.name) do |*_args, **_kwargs|
-            return_value
-          end
+          define_method_with_params(klass, method_config, :define_method)
         when :private
-          klass.send(:define_method, method_config.name) do |*_args, **_kwargs|
-            return_value
-          end
+          define_method_with_params(klass, method_config, :define_method)
           klass.send(:private, method_config.name)
+        when :protected
+          define_method_with_params(klass, method_config, :define_method)
+          klass.send(:protected, method_config.name)
         end
       end
     end
@@ -49,19 +72,33 @@ module CodeGenerator
       return unless class_methods
 
       class_methods.each do |method_config|
-        return_value = calculate_return_value(method_config)
-
         case method_config.visibility
         when :public_class
-          klass.define_singleton_method(method_config.name) do |*_args, **_kwargs|
-            return_value
-          end
+          define_method_with_params(klass.singleton_class, method_config, :define_method)
         when :private_class
-          klass.singleton_class.send(:define_method, method_config.name) do |*_args, **_kwargs|
-            return_value
-          end
+          define_method_with_params(klass.singleton_class, method_config, :define_method)
           klass.singleton_class.send(:private, method_config.name)
         end
+      end
+    end
+
+    # lib/code_generator/generator.rb
+    def define_method_with_params(target_class, method_config, define_method_name)
+      if method_config.parameters.empty?
+        return_value = calculate_return_value(method_config)
+        target_class.send(define_method_name, method_config.name) do |*args, **kwargs, &block|
+          return_value
+        end
+      else
+        # Generate actual method with proper parameter validation
+        param_string = method_config.parameters.map(&:to_ruby_param).join(', ')
+        return_value = calculate_return_value(method_config)
+
+        # Create the method definition as a string
+        method_code = "def #{method_config.name}(#{param_string}); #{return_value.inspect}; end"
+
+        # Evaluate it in the target class context
+        target_class.class_eval(method_code)
       end
     end
 
@@ -84,27 +121,6 @@ module CodeGenerator
       else
         klass
       end
-    end
-
-    # DSL methods
-    def public_method(name, &block)
-      method_config = MethodConfig.new(name, :public, &block)
-      @methods << method_config
-    end
-
-    def private_method(name, &block)
-      method_config = MethodConfig.new(name, :private, &block)
-      @methods << method_config
-    end
-
-    def public_class_method(name, &block)
-      method_config = MethodConfig.new(name, :public_class, &block)
-      @class_methods << method_config
-    end
-
-    def private_class_method(name, &block)
-      method_config = MethodConfig.new(name, :private_class, &block)
-      @class_methods << method_config
     end
   end
 end

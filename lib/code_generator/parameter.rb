@@ -21,11 +21,19 @@ module CodeGenerator
       when :required
         name.to_s
       when :optional
-        "#{name} = #{default.inspect}"
+        if default.nil?
+          "#{name} = nil"
+        else
+          "#{name} = #{default.inspect}"
+        end
       when :keyword_required
         "#{name}:"
       when :keyword
-        "#{name}: #{default.inspect}"
+        if default.nil?
+          "#{name}: nil"
+        else
+          "#{name}: #{default.inspect}"
+        end
       end
     end
 

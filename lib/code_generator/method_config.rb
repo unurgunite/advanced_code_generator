@@ -4,10 +4,11 @@ module CodeGenerator
   class MethodConfig
     attr_reader :name, :visibility, :parameters, :return_value, :generate_random
 
+    VALID_VISIBILITIES = %i[public private protected public_class private_class].freeze
+
     def initialize(name, visibility)
       raise ArgumentError, "Method name must be a Symbol or String" unless name.is_a?(Symbol) || name.is_a?(String)
-      raise ArgumentError, "Invalid visibility: #{visibility}" unless %i[public private public_class
-                                                                         private_class].include?(visibility)
+      raise ArgumentError, "Invalid visibility: #{visibility}" unless VALID_VISIBILITIES.include?(visibility)
 
       @name = name.to_sym
       @visibility = visibility
