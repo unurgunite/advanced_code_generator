@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../support/shared_examples/acts_as_public_methods_spec"
-
 RSpec.describe CodeGenerator::Generator do
   describe "#generate_code" do
     context "public_methods" do

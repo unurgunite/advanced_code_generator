@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = "code_generator"
   spec.version = CodeGenerator::VERSION
   spec.authors = ["unurgunite"]
-  spec.email = [""]
+  spec.email = ["senpaiguru1488@gmail.com"]
 
   spec.summary = "Code generation tool based on preferences."
   spec.description = "This gem gives an ability to generate code based on preferences. You can use it to skip a boring routine with writing tests, some classes for other purposes or just for fun."
@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/unurgunite/code_generator"
   spec.metadata["changelog_uri"] = "https://github.com/unurgunite/code_generator/CHANGELOG.md"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
